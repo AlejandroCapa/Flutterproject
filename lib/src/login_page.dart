@@ -18,9 +18,10 @@ class _LoginpageState extends State<Loginpage> {
                 MainAxisAlignment.center, // Añadido para centrar en vertical
             children: [
               Image.asset(
-                "/images/login.png",
+                "assets/images/login.png",
                 height: 300.0,
               ),
+              
               SizedBox(height: 15.0),
               _userTextField(), // Corregido el nombre de la función
               SizedBox(height: 15),
@@ -53,8 +54,7 @@ class _LoginpageState extends State<Loginpage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
-        keyboardType: TextInputType
-            .text, // Cambiado a TextInputType.text para contraseñas
+        keyboardType: TextInputType.text, // Cambiado a TextInputType.text para contraseñas
         obscureText: true, // Para ocultar la contraseña
         decoration: InputDecoration(
           icon: Icon(Icons.lock),
@@ -69,9 +69,9 @@ class _LoginpageState extends State<Loginpage> {
   Widget _buttonLogin() {
     return ElevatedButton(
       //Se cambio el metodo anterior que es de versiones antiguas de flutter
-      onPressed: () {},
+      onPressed: ()=>{},
       style: ElevatedButton.styleFrom(
-        primary: Colors.amberAccent,
+        primary: Colors.blueGrey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

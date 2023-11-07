@@ -1,83 +1,70 @@
 import 'package:flutter/material.dart';
 
-class Login_page2 extends StatelessWidget {
+class Login_page2 extends StatefulWidget {
   static String id = "login_page2";
+
+  @override
+  State<Login_page2> createState() => _Login_page2State();
+}
+
+class _Login_page2State extends State<Login_page2> {
   List<Empresa> _empresas = [
-    Empresa("MARVO", "TOKIO", "correo", "099999"),
-    Empresa("AMD", "California", "correo", "088888"),
-    Empresa("INTEL CORPORATION", "Estados Unidos", "correo", "07777"),
+    Empresa("MARVO", "TOKIO", "correo1", "099999", "assets/marvo_logo.png"),
+    Empresa("AMD", "California", "correo2", "088888", "assets/amd_logo.png"),
+    Empresa("INTEL CORPORATION", "Estados Unidos", "correo3", "07777", "assets/intel_logo.png"),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Scaffold es la base para crear la interfaz de la pantalla
       appBar: AppBar(
-        title: Text("REGISTRO DE USUARIOS"),
+        title: Text("EMPRESAS"),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("Volver"),
+          ),
+        ],
       ),
       body: ListView.builder(
-          itemCount: _empresas.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(_empresas[index].nombre),
-              subtitle: Text(
-                _empresas[index].ciudad +""+
-                _empresas[index].correo +""+
-                _empresas[index].telefono),
-              leading: CircleAvatar(
-                child: Text(_empresas[index].nombre.substring(0, 1)),
-                child: Column(
-                children: [
-                  ElevatedButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "VOLVER",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Icon(Icons.arrow_back),
-                      ],
-                    ),
-                    onPressed: () => {
-                      Navigator.pop(context)
-                      // el Navigator.pop se utiliza para navegar hacia atrás en la pila de rutas de la aplicación.
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blueGrey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Detalles'),
-                            content: Text(_empresas[index].nombre),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('MOSTRAR'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Text('Mostrar Empresa'),
-                  ),
-                ],
-              ),
-              ),
-              
-            );
-          }),
+        itemCount: _empresas.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: Image.asset(_empresas[index].imagen),
+            title: Text(_empresas[index].nombre),
+            onTap: () {
+              mostrarDetalles(context, _empresas[index]);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void mostrarDetalles(BuildContext context, Empresa empresa) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Detalles de la Empresa'),
+          content: Text(
+            "Nombre: ${empresa.nombre}\n" +
+            "Ciudad: ${empresa.ciudad}\n" +
+            "Correo: ${empresa.correo}\n" +
+            "Teléfono: ${empresa.telefono}\n",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cerrar'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -87,10 +74,13 @@ class Empresa {
   late String ciudad;
   late String correo;
   late String telefono;
-  Empresa(String nombre, String ciudad, String correo, String telefono) {
+  late String imagen; // Agregamos el campo para la imagen
+  Empresa(String nombre, String ciudad, String correo, String telefono, String imagen) {
     this.nombre = nombre;
     this.ciudad = ciudad;
     this.correo = correo;
     this.telefono = telefono;
+    this.imagen = imagen;
+    
   }
 }

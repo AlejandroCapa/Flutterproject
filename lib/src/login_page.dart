@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:project1/src/login_page2.dart';
+
 
 class Loginpage extends StatefulWidget {
   static String id = "login_page";
@@ -10,7 +13,8 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return SafeArea(  //SafeArea se utiliza  para garantizar que el contenido de la aplicación se ajuste correctamente 
+                      //en el área "segura" de la pantalla del dispositivo.
       child: Scaffold(
         body: Center(
           child: Column(
@@ -69,7 +73,11 @@ class _LoginpageState extends State<Loginpage> {
   Widget _buttonLogin() {
     return ElevatedButton(
       //Se cambio el metodo anterior que es de versiones antiguas de flutter
-      onPressed: ()=>{},
+      onPressed: ()=>{
+        Navigator.push(context as BuildContext,
+          MaterialPageRoute(builder: (context)=>Login_page2())
+          ) //El navigator push sirve para llamar a una nueva pantalla especificada
+      },
       style: ElevatedButton.styleFrom(
         primary: Colors.blueGrey,
         shape: RoundedRectangleBorder(

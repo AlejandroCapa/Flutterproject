@@ -8,39 +8,107 @@ class Login_page2 extends StatefulWidget {
 }
 
 class _Login_page2State extends State<Login_page2> {
-  List<Empresa> _empresas = [
-    Empresa("MARVO", "TOKIO", "correo1", "099999", "assets/marvo_logo.png"),
-    Empresa("AMD", "California", "correo2", "088888", "assets/amd_logo.png"),
-    Empresa("INTEL CORPORATION", "Estados Unidos", "correo3", "07777", "assets/intel_logo.png"),
-  ];
+  List<Empresa> _empresas = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("EMPRESAS"),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Volver"),
+        appBar: AppBar(
+          title: Text("EMPRESAS"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(
+                    context); // Regresar a la página de inicio de sesión
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.info),
+              onPressed: () {
+                // Lógica para mostrar detalles de la empresa
+              },
+            ),
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: _empresas.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              //leading: Image.asset(_empresas[index].imagen),
+              title: Text(_empresas[index].nombre),
+              onTap: () {
+                mostrarDetalles(context, _empresas[index]);
+              },
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _agregarEmpresa(); // Llamamos al método para agregar empresa
+          },
+          child: Icon(Icons.add),
+        ));
+  }
+
+  void _agregarEmpresa() async {
+    String nombre = '';
+    String ciudad = '';
+    String correo = '';
+    String telefono = '';
+
+    // Inicializa más campos según sea necesario
+
+    Empresa nuevaEmpresa = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Nueva Empresa'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(labelText: 'Nombre'),
+                  onChanged: (value) => nombre = value,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Ciudad'),
+                  onChanged: (value) => ciudad = value,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Correo'),
+                  onChanged: (value) => correo = value,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Telefono'),
+                  onChanged: (value) => telefono = value,
+                )
+                // Añade más campos aquí
+              ],
+            ),
           ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: _empresas.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Image.asset(_empresas[index].imagen),
-            title: Text(_empresas[index].nombre),
-            onTap: () {
-              mostrarDetalles(context, _empresas[index]);
-            },
-          );
-        },
-      ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(Empresa(
+                  nombre: nombre,
+                  ciudad: ciudad,
+                  correo: correo,
+                  telefono: telefono,
+                  // Proporciona más campos aquí
+                ));
+              },
+              child: Text('Guardar'),
+            ),
+          ],
+        );
+      },
     );
+    if (nuevaEmpresa != null) {
+      setState(() {
+        _empresas.add(nuevaEmpresa);
+      });
+    }
   }
 
   void mostrarDetalles(BuildContext context, Empresa empresa) {
@@ -51,9 +119,9 @@ class _Login_page2State extends State<Login_page2> {
           title: Text('Detalles de la Empresa'),
           content: Text(
             "Nombre: ${empresa.nombre}\n" +
-            "Ciudad: ${empresa.ciudad}\n" +
-            "Correo: ${empresa.correo}\n" +
-            "Teléfono: ${empresa.telefono}\n",
+                "Ciudad: ${empresa.ciudad}\n" +
+                "Correo: ${empresa.correo}\n" +
+                "Teléfono: ${empresa.telefono}\n",
           ),
           actions: [
             TextButton(
@@ -70,17 +138,15 @@ class _Login_page2State extends State<Login_page2> {
 }
 
 class Empresa {
-  late String nombre;
-  late String ciudad;
-  late String correo;
-  late String telefono;
-  late String imagen; // Agregamos el campo para la imagen
-  Empresa(String nombre, String ciudad, String correo, String telefono, String imagen) {
-    this.nombre = nombre;
-    this.ciudad = ciudad;
-    this.correo = correo;
-    this.telefono = telefono;
-    this.imagen = imagen;
-    
-  }
+  final String nombre;
+  final String ciudad;
+  final String correo;
+  final String telefono;
+
+  Empresa({
+    required this.nombre,
+    required this.ciudad,
+    required this.correo,
+    required this.telefono,
+  });
 }

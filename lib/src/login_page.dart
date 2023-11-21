@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:project1/src/login_page2.dart';
-
 
 class Loginpage extends StatefulWidget {
   static String id = "login_page";
@@ -13,8 +11,9 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(  //SafeArea se utiliza  para garantizar que el contenido de la aplicación se ajuste correctamente 
-                      //en el área "segura" de la pantalla del dispositivo.
+    return SafeArea(
+      //SafeArea se utiliza  para garantizar que el contenido de la aplicación se ajuste correctamente
+      //en el área "segura" de la pantalla del dispositivo.
       child: Scaffold(
         body: Center(
           child: Column(
@@ -25,7 +24,7 @@ class _LoginpageState extends State<Loginpage> {
                 "assets/images/login.png",
                 height: 300.0,
               ),
-              
+
               SizedBox(height: 15.0),
               _userTextField(), // Corregido el nombre de la función
               SizedBox(height: 15),
@@ -58,7 +57,8 @@ class _LoginpageState extends State<Loginpage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: TextField(
-        keyboardType: TextInputType.text, // Cambiado a TextInputType.text para contraseñas
+        keyboardType: TextInputType
+            .text, // Cambiado a TextInputType.text para contraseñas
         obscureText: true, // Para ocultar la contraseña
         decoration: InputDecoration(
           icon: Icon(Icons.lock),
@@ -71,24 +71,26 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Widget _buttonLogin() {
-    return ElevatedButton(
-      //Se cambio el metodo anterior que es de versiones antiguas de flutter
-      onPressed: ()=>{
-        Navigator.push(context as BuildContext,
-          MaterialPageRoute(builder: (context)=>Login_page2())
-          ) //El navigator push sirve para llamar a una nueva pantalla especificada
-      },
-      style: ElevatedButton.styleFrom(
-        primary: Colors.blueGrey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+  return ElevatedButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login_page2(),
         ),
-        elevation: 10.0,
+      );
+    },
+    style: ElevatedButton.styleFrom(
+      primary: Colors.blueGrey,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        child: Text("Iniciar Sesión"),
-      ),
-    );
-  }
+      elevation: 10.0,
+    ),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+      child: Text("Iniciar Sesión"),
+    ),
+  );
+}
 }
